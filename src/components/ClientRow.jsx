@@ -80,6 +80,10 @@ const ClientRow = ({ client, setClients, clients }) => {
           editedClient.date,
           "MMM dd yyyy h:mm a"
         )}`;
+        apnt.appointmentEndDate = `${format(
+          editedClient.endDate,
+          "MMM dd yyyy h:mm a"
+        )}`;
       }
     });
     setEditingAppointment(false);
@@ -136,6 +140,10 @@ const ClientRow = ({ client, setClients, clients }) => {
                       editedClient.date,
                       "MMM dd yyyy h:mm a"
                     )}`,
+                    appointmentEndDate: `${format(
+                      editedClient.endDate,
+                      "MMM dd yyyy h:mm a"
+                    )}`,
                   },
                 ]
               : cli.appointments,
@@ -149,20 +157,12 @@ const ClientRow = ({ client, setClients, clients }) => {
     appointmentAdded();
   };
 
-  // const today = new Date();
-  // console.log(`${format(today, "MMM dd yyyy h:mm a")}`);
-  client.appointments.map((apntDate) => {
-    // if (apntDate) {
-    //   console.log(apntDate.appointmentDate);
-    // }
-    // console.log(apntDate);
-  });
-
   return (
     <>
       <div
         className="relative bg-red-50 rounded-lg 
-      drop-shadow-md p-4 w-4/5 mx-auto sm:h-full sm:w-full h-[360px] flex flex-row"
+      drop-shadow-md p-4 mx-auto sm:h-full w-4/5 sm:w-full 
+      h-[360px] flex flex-row"
       >
         <div
           className="flex flex-col sm:flex-row gap-4 
@@ -171,7 +171,12 @@ const ClientRow = ({ client, setClients, clients }) => {
         "
         >
           <div className="sm:w-[15%]  h-full flex justify-center items-center ">
-            <div className="bg-white sm:text-6xl text-7xl text-red-500 sm:h-20 h-24 w-24 sm:w-20 sm:rounded-full rounded-3xl flex justify-center items-center">
+            <div
+              className="bg-white sm:text-7xl text-8xl lg:text-9xl
+             text-red-500 
+             sm:rounded-full rounded-3xl flex justify-center 
+             items-center p-2"
+            >
               <IoFitnessOutline />
             </div>
           </div>
@@ -208,7 +213,7 @@ const ClientRow = ({ client, setClients, clients }) => {
                   />
                 </div>
               ) : (
-                <h2 className="sm:text-2xl text-3xl font-bold">
+                <h2 className="sm:text-2xl text-3xl font-bold capitalize">
                   {editedClient.firstName} {editedClient.lastName}
                 </h2>
               )}
@@ -277,7 +282,7 @@ const ClientRow = ({ client, setClients, clients }) => {
                   />
                 </div>
               ) : (
-                <div className="sm:text-lg text-xl text-gray-500 flex gap-2 items-center justify-center sm:justify-start font-medium">
+                <div className="sm:text-lg text-xl text-gray-500 flex gap-2 items-center justify-center sm:justify-start font-medium capitalize">
                   <span className="sm:text-2xl">
                     <FaLocationDot />
                   </span>
@@ -294,18 +299,48 @@ const ClientRow = ({ client, setClients, clients }) => {
                   <li key={appointment.id}>
                     {editingAppointment && appointmentId === appointment.id ? (
                       <div className="flex gap-2">
-                        <DatePicker
-                          selected={editedClient.date}
-                          onChange={(date) =>
-                            setEditedClient({ ...editedClient, date })
-                          }
-                          showTimeSelect
-                          dateFormat="Pp"
-                          className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
-                          minDate={new Date()}
-                          placeholderText="Edit your Schedule"
-                          portalId="root-portal"
-                        />
+                        <div className="flex flex-col ">
+                          <div className="flex gap-2 items-center">
+                            <p className="text-lg font-medium w-12 text-end">
+                              From
+                            </p>
+                            <DatePicker
+                              selected={editedClient.date}
+                              onChange={(date) =>
+                                setEditedClient({ ...editedClient, date })
+                              }
+                              showTimeSelect
+                              dateFormat="Pp"
+                              className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
+                              minDate={new Date()}
+                              placeholderText="Edit your Schedule"
+                              portalId="root-portal"
+                              selectsStart
+                            />
+                          </div>
+                          <div className="flex gap-2 items-center">
+                            <p className="text-lg font-medium w-12 text-end">
+                              To
+                            </p>
+
+                            <DatePicker
+                              selected={editedClient.endDate}
+                              onChange={(enddate) =>
+                                setEditedClient({
+                                  ...editedClient,
+                                  endDate: enddate,
+                                })
+                              }
+                              showTimeSelect
+                              dateFormat="Pp"
+                              className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
+                              minDate={editedClient.date}
+                              placeholderText="Edit your Schedule"
+                              portalId="root-portal"
+                              selectsEnd
+                            />
+                          </div>
+                        </div>
 
                         <button
                           className=" text-2xl text-blue-500 flex items-center justify-center"
@@ -359,18 +394,43 @@ const ClientRow = ({ client, setClients, clients }) => {
               </ul>
               {addApnt ? (
                 <div className="z-10 flex gap-2">
-                  <DatePicker
-                    selected={editedClient.date}
-                    onChange={(date) =>
-                      setEditedClient({ ...editedClient, date })
-                    }
-                    showTimeSelect
-                    dateFormat="Pp"
-                    className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
-                    minDate={new Date()}
-                    placeholderText="Pick New Schedule"
-                    portalId="root-portal"
-                  />
+                  <div>
+                    <div className="flex gap-2 items-center">
+                      <p className="text-lg font-medium w-12 text-end">From</p>{" "}
+                      <DatePicker
+                        selected={editedClient.date}
+                        onChange={(date) =>
+                          setEditedClient({ ...editedClient, date })
+                        }
+                        showTimeSelect
+                        dateFormat="Pp"
+                        className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
+                        minDate={new Date()}
+                        placeholderText="Pick New Schedule"
+                        portalId="root-portal"
+                        selectsStart
+                      />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <p className="text-lg font-medium w-12 text-end">To</p>{" "}
+                      <DatePicker
+                        selected={editedClient.endDate}
+                        onChange={(enddate) =>
+                          setEditedClient({
+                            ...editedClient,
+                            endDate: enddate,
+                          })
+                        }
+                        showTimeSelect
+                        dateFormat="Pp"
+                        className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
+                        minDate={editedClient.date}
+                        placeholderText="Pick New Schedule"
+                        portalId="root-portal"
+                        selectsEnd
+                      />
+                    </div>
+                  </div>
                   <button
                     className=" text-2xl text-blue-500 flex items-center justify-center pr-1"
                     onClick={() => addAppointment(client.id)}
