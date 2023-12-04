@@ -7,11 +7,21 @@ import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const sampleClients = [
+  {
+    id: "",
+    firstName: "",
+    lastName: "",
+    location: "",
+    appointments: [{ id: "", appointmentDate: "", appointmentDate: "" }],
+  },
+];
+
 const ClientList = () => {
   const storedClients = JSON.parse(localStorage.getItem("clients"));
-  const [clients, setClients] = useState(storedClients);
+  const [clients, setClients] = useState(sampleClients);
   const [newAppointment, setNewAppointment] = useState(false);
-  const [newSchedule, setNewSchedule] = useState([]);
+  const [newSchedule, setNewSchedule] = useState(sampleClients);
 
   useEffect(() => {
     localStorage.setItem("clients", JSON.stringify(clients));
