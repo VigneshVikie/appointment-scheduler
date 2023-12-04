@@ -66,7 +66,7 @@ const ClientRow = ({ client, setClients, clients }) => {
         `${editedClient.firstName}'s schedule Updated successfully.`
       );
 
-    if (!editedClient.date) {
+    if (!editedClient.date || !editedClient.endDate) {
       const invalidDate = () =>
         toast.error(
           "Oh snap! Looks like you forgot to pick a valid date. 📅 Try again!"
@@ -114,7 +114,7 @@ const ClientRow = ({ client, setClients, clients }) => {
       toast.success(
         `New schedule successfully added for ${editedClient.firstName} ${editedClient.lastName}`
       );
-    if (!editedClient.date) {
+    if (!editedClient.date || !editedClient.endDate) {
       const invalidDate = () =>
         toast.error(
           "Oh snap! Looks like you forgot to pick a valid date. 📅 Try again!"
@@ -396,7 +396,7 @@ const ClientRow = ({ client, setClients, clients }) => {
                 <div className="z-10 flex gap-2">
                   <div>
                     <div className="flex gap-2 items-center">
-                      <p className="text-lg font-medium w-12 text-end">From</p>{" "}
+                      <p className="text-lg font-medium w-12 text-end">From</p>
                       <DatePicker
                         selected={editedClient.date}
                         onChange={(date) =>
@@ -412,7 +412,7 @@ const ClientRow = ({ client, setClients, clients }) => {
                       />
                     </div>
                     <div className="flex gap-2 items-center">
-                      <p className="text-lg font-medium w-12 text-end">To</p>{" "}
+                      <p className="text-lg font-medium w-12 text-end">To</p>
                       <DatePicker
                         selected={editedClient.endDate}
                         onChange={(enddate) =>
