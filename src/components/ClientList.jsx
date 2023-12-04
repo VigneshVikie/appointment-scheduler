@@ -61,7 +61,6 @@ const ClientList = () => {
     localStorage.setItem("clients", JSON.stringify(clients));
     setNewAppointment(false);
     appointmentCreated();
-    randomIconClick();
   };
 
   return (
