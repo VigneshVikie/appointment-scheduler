@@ -11,15 +11,7 @@ const ClientList = () => {
   const storedClients = JSON.parse(localStorage.getItem("clients"));
   const [clients, setClients] = useState(storedClients);
   const [newAppointment, setNewAppointment] = useState(false);
-  const [newSchedule, setNewSchedule] = useState([
-    {
-      id: "",
-      firstName: "",
-      lastName: "",
-      location: "",
-      appointments: [{ id: "", appointmentDate: "", appointmentDate: "" }],
-    },
-  ]);
+  const [newSchedule, setNewSchedule] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("clients", JSON.stringify(clients));
