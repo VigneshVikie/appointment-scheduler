@@ -189,7 +189,7 @@ const ClientList = () => {
           Time to spice up your schedule! <br />
           Click "Add Appointments" and let's get started.
         </div>
-      ) : null}
+      )}
       <ToastContainer
         position="top-center"
         autoClose={5000}
