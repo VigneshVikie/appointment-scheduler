@@ -179,7 +179,7 @@ const ClientList = () => {
           </div>
         )}
       </div>
-      {clients.length === 0 && (
+      {clients?.length === 0 && (
         <div className="z-20 mx-auto leading-snug bg-red-50 rounded-lg  w-[95%] h-96 flex items-center justify-center text-3xl text-center">
           No appointments today? 🤔
           <br />
