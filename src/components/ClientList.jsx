@@ -64,7 +64,7 @@ const ClientList = () => {
       ],
     };
 
-    setClients((prevClients) => [...prevClients, newClient]);
+    setClients((prevClients) => [...(prevClients || []), newClient]);
     setNewSchedule({});
     localStorage.setItem("clients", JSON.stringify(clients));
     setNewAppointment(false);
