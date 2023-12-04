@@ -13,7 +13,7 @@ export default function Calendar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const events = storedClients.flatMap((client) =>
-    client.appointments?.map((apnt) => ({
+    client?.appointments?.map((apnt) => ({
       title: client.firstName,
       start: new Date(apnt.appointmentDate),
       end: new Date(apnt.appointmentEndDate),
