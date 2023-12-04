@@ -3,12 +3,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
-import { IoMdFitness } from "react-icons/io";
+import { IoFitnessOutline } from "react-icons/io5";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin4Fill } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 import { FaLocationDot, FaSquarePlus } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ClientRow = ({ client, setClients, clients }) => {
   const [editing, setEditing] = useState(false);
@@ -18,6 +20,9 @@ const ClientRow = ({ client, setClients, clients }) => {
   const [editedClient, setEditedClient] = useState({ ...client });
 
   const handleSave = (id) => {
+    const appointmentEdited = () =>
+      toast(`Wow, ${editedClient.firstName}'s changes have been saved! 🚀✨`);
+
     setClients((prevClients) => {
       return prevClients.map((cli) => {
         if (cli.id === id) {
@@ -35,12 +40,19 @@ const ClientRow = ({ client, setClients, clients }) => {
     });
 
     setEditing(false);
+    appointmentEdited();
   };
 
   const handleDelete = (id) => {
+    const appointmentDelete = () =>
+      toast(
+        `${editedClient.firstName}'s Appointment vanished into the void! 🕳️ Deleted successfully.`
+      );
     setClients((prevClients) => {
       return prevClients.filter((cli) => cli.id !== id);
     });
+
+    appointmentDelete();
   };
 
   const handleEditAppointment = (appntId) => {
@@ -49,8 +61,17 @@ const ClientRow = ({ client, setClients, clients }) => {
   };
 
   const saveAppointment = (id) => {
+    const scheduleEdit = () =>
+      toast.success(
+        `${editedClient.firstName}'s schedule Updated successfully.`
+      );
+
     if (!editedClient.date) {
-      alert("Please select a valid date.");
+      const invalidDate = () =>
+        toast.error(
+          "Oh snap! Looks like you forgot to pick a valid date. 📅 Try again!"
+        );
+      invalidDate();
       return;
     }
     client.appointments.map((apnt) => {
@@ -62,9 +83,15 @@ const ClientRow = ({ client, setClients, clients }) => {
       }
     });
     setEditingAppointment(false);
+    scheduleEdit();
   };
 
   const handleDeleteAppointment = (id) => {
+    const appointmentDelete = () =>
+      toast.success(
+        `${editedClient.firstName}'s Schedule Deleted successfully.`
+      );
+
     setClients((prevClients) => {
       return prevClients.map((client) => {
         return {
@@ -75,11 +102,20 @@ const ClientRow = ({ client, setClients, clients }) => {
         };
       });
     });
+    appointmentDelete();
   };
 
   const addAppointment = (id) => {
+    const appointmentAdded = () =>
+      toast.success(
+        `New schedule successfully added for ${editedClient.firstName} ${editedClient.lastName}`
+      );
     if (!editedClient.date) {
-      alert("Please select a valid date.");
+      const invalidDate = () =>
+        toast.error(
+          "Oh snap! Looks like you forgot to pick a valid date. 📅 Try again!"
+        );
+      invalidDate();
       return;
     }
     setClients((prevClients) => {
@@ -110,15 +146,18 @@ const ClientRow = ({ client, setClients, clients }) => {
       });
     });
     setAddApnt(false);
+    appointmentAdded();
   };
 
-  const today = new Date();
-  console.log(`${format(today, "MMM dd yyyy h:mm a")}`);
+  // const today = new Date();
+  // console.log(`${format(today, "MMM dd yyyy h:mm a")}`);
   client.appointments.map((apntDate) => {
-    if (apntDate) {
-      console.log(apntDate.appointmentDate);
-    }
+    // if (apntDate) {
+    //   console.log(apntDate.appointmentDate);
+    // }
+    // console.log(apntDate);
   });
+
   return (
     <>
       <div
@@ -132,8 +171,8 @@ const ClientRow = ({ client, setClients, clients }) => {
         "
         >
           <div className="sm:w-[15%]  h-full flex justify-center items-center ">
-            <div className="bg-white tsm:ext-5xl text-7xl text-red-500 sm:h-20 h-24 w-24 sm:w-20 sm:rounded-full rounded-3xl flex justify-center items-center">
-              <IoMdFitness />
+            <div className="bg-white sm:text-6xl text-7xl text-red-500 sm:h-20 h-24 w-24 sm:w-20 sm:rounded-full rounded-3xl flex justify-center items-center">
+              <IoFitnessOutline />
             </div>
           </div>
           <div
@@ -361,6 +400,18 @@ const ClientRow = ({ client, setClients, clients }) => {
           )}
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 };

@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const sampleClients = [
 //   {
@@ -17,7 +19,6 @@ import { format } from "date-fns";
 
 const ClientList = () => {
   const storedClients = JSON.parse(localStorage.getItem("clients"));
-
   const [clients, setClients] = useState(storedClients);
   const [newAppointment, setNewAppointment] = useState(false);
   const [newSchedule, setNewSchedule] = useState([]);
@@ -27,13 +28,24 @@ const ClientList = () => {
   }, [clients]);
 
   const createAppointment = () => {
+    const appointmentCreated = () =>
+      toast("❤ Guess what? You just unleashed a new appointment! Hurray!🎉");
+
     if (!newSchedule.date) {
-      alert("Please select a valid date.");
+      const invalidDate = () =>
+        toast.error(
+          "Oh snap! Looks like you forgot to pick a valid date. 📅 Try again!"
+        );
+      invalidDate();
       return;
     }
 
     if (!newSchedule.firstName || !newSchedule.location) {
-      alert("Please enter First Name and Last Name.");
+      const invalidNameLocation = () =>
+        toast.error(
+          "Oopsie! Can't forget the essentials. Please enter both First Name and Location. 🧐"
+        );
+      invalidNameLocation();
       return;
     }
 
@@ -54,6 +66,8 @@ const ClientList = () => {
     setNewSchedule({});
     localStorage.setItem("clients", JSON.stringify(clients));
     setNewAppointment(false);
+    appointmentCreated();
+    randomIconClick();
   };
 
   return (
@@ -80,8 +94,11 @@ const ClientList = () => {
         ))}
         {newAppointment && (
           <div className="absolute flex flex-col justify-center items-center  bg-red-100 w-full h-full -ml-6 -mt-6 z-30">
-            <div className="bg-white text-2xl font-medium  rounded-lg flex items-start p-4 justify-between flex-col gap-2 ">
-              <h1>First Name</h1>
+            <div className="bg-white w-[80%] sm:w-[400px] text-2xl font-medium  rounded-lg flex items-start p-4 justify-between flex-col gap-2 ">
+              <p className="text-sm text-center w-full">
+                The fields marked with '*' are mandatory
+              </p>
+              <h1>First Name *</h1>
               <input
                 type="text"
                 value={newSchedule.firstName}
@@ -104,7 +121,7 @@ const ClientList = () => {
                 }
                 className="bg-red-100 w-full p-2 rounded-md"
               />
-              <h1>Location</h1>
+              <h1>Appointment Location *</h1>
 
               <input
                 type="text"
@@ -114,14 +131,14 @@ const ClientList = () => {
                 }
                 className="bg-red-100 w-full p-2 rounded-md"
               />
-              <h1>Appointment Schedule</h1>
+              <h1>Appointment Schedule *</h1>
 
               <DatePicker
                 selected={newSchedule.date}
                 onChange={(date) => setNewSchedule({ ...newSchedule, date })}
                 showTimeSelect
                 dateFormat="Pp"
-                className="bg-red-100 w-full p-2 rounded-md"
+                className="bg-red-100 p-2 rounded-md w-full"
                 minDate={new Date()}
                 placeholderText="Pick your Schedule"
               />
@@ -151,6 +168,19 @@ const ClientList = () => {
           Click "Add Appointments" and let's get started.
         </div>
       )}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        className="text-xl"
+      />
     </>
   );
 };
