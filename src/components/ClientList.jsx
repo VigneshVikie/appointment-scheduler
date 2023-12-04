@@ -13,6 +13,10 @@ const ClientList = () => {
   const [newAppointment, setNewAppointment] = useState(false);
   const [newSchedule, setNewSchedule] = useState([]);
 
+  (function () {
+    localStorage.setItem("clients", JSON.stringify([]));
+  })();
+
   useEffect(() => {
     localStorage.setItem("clients", JSON.stringify(clients));
   }, [clients]);
