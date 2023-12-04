@@ -13,7 +13,7 @@ export default function Calendar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const events = storedClients.flatMap((client) =>
-    client.appointments.map((apnt) => ({
+    client.appointments?.map((apnt) => ({
       title: client.firstName,
       start: new Date(apnt.appointmentDate),
       end: new Date(apnt.appointmentEndDate),
@@ -42,7 +42,7 @@ export default function Calendar() {
             <h1 className="text-center text-3xl xl:text-4xl font-bold pb-4 text-red-500">
               Appointment Details
             </h1>
-            {storedClients.map((client) => {
+            {storedClients?.map((client) => {
               return (
                 client.id === captureEvent?.id && (
                   <div
@@ -64,7 +64,7 @@ export default function Calendar() {
                         <h1 className="text-lg font-medium underline">
                           Appointments
                         </h1>
-                        {client.appointments.map((apntDate) => {
+                        {client?.appointments?.map((apntDate) => {
                           return (
                             <h1
                               key={apntDate.id}

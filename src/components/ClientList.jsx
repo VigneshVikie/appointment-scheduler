@@ -7,16 +7,6 @@ import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// const sampleClients = [
-//   {
-//     id: "",
-//     firstName: "",
-//     lastName: "",
-//     location: "",
-//     appointments: [{ id: "", appointmentDate: "", appointmentEndDate: "" }],
-//   },
-// ];
-
 const ClientList = () => {
   const storedClients = JSON.parse(localStorage.getItem("clients"));
   const [clients, setClients] = useState(storedClients);
@@ -87,7 +77,7 @@ const ClientList = () => {
             Add Appointments
           </button>
         </div>
-        {clients.map((client) => (
+        {clients?.map((client) => (
           <ClientRow
             key={client.id}
             client={client}

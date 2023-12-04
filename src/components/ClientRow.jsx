@@ -24,7 +24,7 @@ const ClientRow = ({ client, setClients, clients }) => {
       toast(`Wow, ${editedClient.firstName}'s changes have been saved! 🚀✨`);
 
     setClients((prevClients) => {
-      return prevClients.map((cli) => {
+      return prevClients?.map((cli) => {
         if (cli.id === id) {
           return {
             ...cli,
@@ -74,7 +74,7 @@ const ClientRow = ({ client, setClients, clients }) => {
       invalidDate();
       return;
     }
-    client.appointments.map((apnt) => {
+    client?.appointments?.map((apnt) => {
       if (apnt.id === id) {
         apnt.appointmentDate = `${format(
           editedClient.date,
@@ -97,7 +97,7 @@ const ClientRow = ({ client, setClients, clients }) => {
       );
 
     setClients((prevClients) => {
-      return prevClients.map((client) => {
+      return prevClients?.map((client) => {
         return {
           ...client,
           appointments: client.appointments.filter(
@@ -123,7 +123,7 @@ const ClientRow = ({ client, setClients, clients }) => {
       return;
     }
     setClients((prevClients) => {
-      return prevClients.map((cli) => {
+      return prevClients?.map((cli) => {
         if (cli.id === id) {
           const isDateChanged = cli.appointments.filter(
             (apnt) => apnt.appointmentDate !== editedClient.date
@@ -295,7 +295,7 @@ const ClientRow = ({ client, setClients, clients }) => {
             <div className="w-full flex flex-col  items-center h-full z-10">
               <h1 className="font-bold text-2xl pb-2">Appointments</h1>
               <ul>
-                {client.appointments.map((appointment) => (
+                {client?.appointments?.map((appointment) => (
                   <li key={appointment.id}>
                     {editingAppointment && appointmentId === appointment.id ? (
                       <div className="flex gap-2">
