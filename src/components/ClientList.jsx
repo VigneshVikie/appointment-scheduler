@@ -37,6 +37,10 @@ const ClientList = () => {
         ))();
       return;
     }
+    if (newSchedule.endDate < newSchedule.date) {
+      (() => toast.error("End Time cannot be earlier than start time"))();
+      return;
+    }
 
     const newClient = {
       id: uuidv4(),
@@ -61,15 +65,6 @@ const ClientList = () => {
     setNewAppointment(false);
     (() =>
       toast("❤ Guess what? You just unleashed a new appointment! Hurray!🎉"))();
-  };
-
-  const handleEndDateChange = (enddate) => {
-    if (enddate < newSchedule.date) {
-      (() => toast.error("End Time cannot be earlier than start time"))();
-      return;
-    }
-
-    setNewSchedule({ ...newSchedule, endDate: enddate });
   };
 
   return (
@@ -156,7 +151,9 @@ const ClientList = () => {
                   <p className="w-16 text-end ">To</p>
                   <DatePicker
                     selected={newSchedule.endDate}
-                    onChange={handleEndDateChange}
+                    onChange={(enddate) =>
+                      setNewSchedule({ ...newSchedule, endDate: enddate })
+                    }
                     showTimeSelect
                     dateFormat="Pp"
                     className="bg-red-100 p-2 rounded-md w-full"

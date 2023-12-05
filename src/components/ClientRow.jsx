@@ -72,6 +72,12 @@ const ClientRow = ({ client, setClients, clients }) => {
       invalidDate();
       return;
     }
+
+    if (editedClient.endDate < editedClient.date) {
+      (() => toast.error("End Time cannot be earlier than start time"))();
+      return;
+    }
+
     client?.appointments?.map((apnt) => {
       if (apnt.id === id) {
         apnt.appointmentDate = `${format(
@@ -112,6 +118,12 @@ const ClientRow = ({ client, setClients, clients }) => {
         ))();
       return;
     }
+
+    if (editedClient.endDate < editedClient.date) {
+      (() => toast.error("End Time cannot be earlier than start time"))();
+      return;
+    }
+
     setClients((prevClients) => {
       return prevClients?.map((cli) => {
         if (cli.id === id) {
@@ -150,15 +162,6 @@ const ClientRow = ({ client, setClients, clients }) => {
       ))();
   };
 
-  const handleEndDateChange = (enddate) => {
-    if (enddate < editedClient.date) {
-      (() => toast.error("End Time cannot be earlier than start time"))();
-      return;
-    }
-
-    setEditedClient({ ...editedClient, endDate: enddate });
-  };
-
   return (
     <>
       <div
@@ -186,7 +189,7 @@ const ClientRow = ({ client, setClients, clients }) => {
             className="sm:w-[40%] mx-auto h-full 
           sm:flex sm:flex-col sm:items-center sm:justify-center w-full"
           >
-            <div className="relative flex items-center justify-between mb-2">
+            <div className="relative flex items-center justify-center mb-2">
               {editing ? (
                 <div
                   className="text-lg w-full font-medium 
@@ -330,7 +333,12 @@ const ClientRow = ({ client, setClients, clients }) => {
 
                             <DatePicker
                               selected={editedClient.endDate}
-                              onChange={handleEndDateChange}
+                              onChange={(enddate) =>
+                                setEditedClient({
+                                  ...editedClient,
+                                  endDate: enddate,
+                                })
+                              }
                               showTimeSelect
                               dateFormat="Pp"
                               className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
@@ -415,7 +423,12 @@ const ClientRow = ({ client, setClients, clients }) => {
                       <p className="text-lg font-medium w-12 text-end">To</p>
                       <DatePicker
                         selected={editedClient.endDate}
-                        onChange={handleEndDateChange}
+                        onChange={(enddate) =>
+                          setEditedClient({
+                            ...editedClient,
+                            endDate: enddate,
+                          })
+                        }
                         showTimeSelect
                         dateFormat="Pp"
                         className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
