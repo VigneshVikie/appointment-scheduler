@@ -184,11 +184,14 @@ const ClientRow = ({ client, setClients, clients }) => {
           </div>
           <div
             className="sm:w-[40%] mx-auto h-full 
-          sm:flex sm:flex-col sm:items-center sm:justify-center "
+          sm:flex sm:flex-col sm:items-center sm:justify-center w-full"
           >
             <div className="relative flex items-center justify-between mb-2">
               {editing ? (
-                <div className="text-lg font-medium flex flex-col z-10  gap-2">
+                <div
+                  className="text-lg w-full font-medium 
+                flex flex-col justify-center z-10 gap-2"
+                >
                   <p>First Name :</p>
                   <input
                     type="text"
@@ -199,7 +202,7 @@ const ClientRow = ({ client, setClients, clients }) => {
                         firstName: e.target.value,
                       })
                     }
-                    className="p-1"
+                    className="p-1 w-full shadow-md rounded-md"
                   />
                   <p>Last Name :</p>
                   <input
@@ -211,7 +214,7 @@ const ClientRow = ({ client, setClients, clients }) => {
                         lastName: e.target.value,
                       })
                     }
-                    className="p-1 "
+                    className="p-1 rounded-md shadow-md"
                   />
                 </div>
               ) : (
@@ -267,12 +270,12 @@ const ClientRow = ({ client, setClients, clients }) => {
                 </div>
               )}
             </div>
-            <div className="mb-2 z-10">
+            <div className="mb-2 ">
               {editing ? (
-                <div className="text-lg font-medium flex flex-col gap-2">
+                <div className="text-lg w-full font-medium flex flex-col gap-2">
                   <span>Location: </span>
                   <input
-                    className="p-1"
+                    className="p-1 rounded-md shadow-md z-10"
                     type="text"
                     value={editedClient.location}
                     onChange={(e) =>
