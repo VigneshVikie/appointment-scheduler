@@ -185,15 +185,14 @@ const ClientList = () => {
           </div>
         )}
       </div>
-      {clients?.length === 0 ||
-        (clients === null && (
-          <div className="z-20 mx-auto leading-snug bg-red-50 rounded-lg  w-[95%] h-96 flex items-center justify-center text-3xl text-center">
-            No appointments today? 🤔
-            <br />
-            Time to spice up your schedule! <br />
-            Click "Add Appointments" and let's get started.
-          </div>
-        ))}
+      {clients?.length === 0 || clients === null ? (
+        <div className="z-20 mx-auto leading-snug bg-red-50 rounded-lg  w-[95%] h-96 flex items-center justify-center text-3xl text-center">
+          No appointments today? 🤔
+          <br />
+          Time to spice up your schedule! <br />
+          Click "Add Appointments" and let's get started.
+        </div>
+      ) : null}
       <ToastContainer
         position="top-center"
         autoClose={5000}
