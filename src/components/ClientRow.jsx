@@ -20,9 +20,6 @@ const ClientRow = ({ client, setClients, clients }) => {
   const [editedClient, setEditedClient] = useState({ ...client });
 
   const handleSave = (id) => {
-    const appointmentEdited = () =>
-      toast(`Wow, ${editedClient.firstName}'s changes have been saved! 🚀✨`);
-
     setClients((prevClients) => {
       return prevClients?.map((cli) => {
         if (cli.id === id) {
@@ -40,19 +37,20 @@ const ClientRow = ({ client, setClients, clients }) => {
     });
 
     setEditing(false);
-    appointmentEdited();
+    (() =>
+      toast(
+        `Wow, ${editedClient.firstName}'s changes have been saved! 🚀✨`
+      ))();
   };
 
   const handleDelete = (id) => {
-    const appointmentDelete = () =>
-      toast(
-        `${editedClient.firstName}'s Appointment vanished into the void! 🕳️ Deleted successfully.`
-      );
     setClients((prevClients) => {
       return prevClients.filter((cli) => cli.id !== id);
     });
-
-    appointmentDelete();
+    (() =>
+      toast(
+        `${editedClient.firstName}'s Appointment vanished into the void! 🕳️ Deleted successfully.`
+      ))();
   };
 
   const handleEditAppointment = (appntId) => {
@@ -61,10 +59,10 @@ const ClientRow = ({ client, setClients, clients }) => {
   };
 
   const saveAppointment = (id) => {
-    const scheduleEdit = () =>
+    (() =>
       toast.success(
         `${editedClient.firstName}'s schedule Updated successfully.`
-      );
+      ))();
 
     if (!editedClient.date || !editedClient.endDate) {
       const invalidDate = () =>
@@ -87,15 +85,9 @@ const ClientRow = ({ client, setClients, clients }) => {
       }
     });
     setEditingAppointment(false);
-    scheduleEdit();
   };
 
   const handleDeleteAppointment = (id) => {
-    const appointmentDelete = () =>
-      toast.success(
-        `${editedClient.firstName}'s Schedule Deleted successfully.`
-      );
-
     setClients((prevClients) => {
       return prevClients?.map((client) => {
         return {
@@ -106,20 +98,18 @@ const ClientRow = ({ client, setClients, clients }) => {
         };
       });
     });
-    appointmentDelete();
+    (() =>
+      toast.success(
+        `${editedClient.firstName}'s Schedule Deleted successfully.`
+      ))();
   };
 
   const addAppointment = (id) => {
-    const appointmentAdded = () =>
-      toast.success(
-        `New schedule successfully added for ${editedClient.firstName} ${editedClient.lastName}`
-      );
     if (!editedClient.date || !editedClient.endDate) {
-      const invalidDate = () =>
+      (() =>
         toast.error(
           "Oh snap! Looks like you forgot to pick a valid date. 📅 Try again!"
-        );
-      invalidDate();
+        ))();
       return;
     }
     setClients((prevClients) => {
@@ -154,7 +144,19 @@ const ClientRow = ({ client, setClients, clients }) => {
       });
     });
     setAddApnt(false);
-    appointmentAdded();
+    (() =>
+      toast.success(
+        `New schedule successfully added for ${editedClient.firstName}`
+      ))();
+  };
+
+  const handleEndDateChange = (enddate) => {
+    if (enddate < editedClient.date) {
+      (() => toast.error("End Time cannot be earlier than start time"))();
+      return;
+    }
+
+    setEditedClient({ ...editedClient, endDate: enddate });
   };
 
   return (
@@ -325,12 +327,7 @@ const ClientRow = ({ client, setClients, clients }) => {
 
                             <DatePicker
                               selected={editedClient.endDate}
-                              onChange={(enddate) =>
-                                setEditedClient({
-                                  ...editedClient,
-                                  endDate: enddate,
-                                })
-                              }
+                              onChange={handleEndDateChange}
                               showTimeSelect
                               dateFormat="Pp"
                               className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"
@@ -415,12 +412,7 @@ const ClientRow = ({ client, setClients, clients }) => {
                       <p className="text-lg font-medium w-12 text-end">To</p>
                       <DatePicker
                         selected={editedClient.endDate}
-                        onChange={(enddate) =>
-                          setEditedClient({
-                            ...editedClient,
-                            endDate: enddate,
-                          })
-                        }
+                        onChange={handleEndDateChange}
                         showTimeSelect
                         dateFormat="Pp"
                         className="w-full sm:text-lg mb-2 py-1 px-3 rounded-md"

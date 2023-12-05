@@ -13,33 +13,28 @@ const ClientList = () => {
   const [newAppointment, setNewAppointment] = useState(false);
   const [newSchedule, setNewSchedule] = useState([]);
 
-  (function () {
+  if (clients?.length === 0) {
     localStorage.setItem("clients", JSON.stringify([]));
-  })();
+  }
 
   useEffect(() => {
     localStorage.setItem("clients", JSON.stringify(clients));
   }, [clients]);
 
   const createAppointment = () => {
-    const appointmentCreated = () =>
-      toast("❤ Guess what? You just unleashed a new appointment! Hurray!🎉");
-
     if (!newSchedule.date) {
-      const invalidDate = () =>
+      (() =>
         toast.error(
           "Oh snap! Looks like you forgot to pick a valid date. 📅 Try again!"
-        );
-      invalidDate();
+        ))();
       return;
     }
 
     if (!newSchedule.firstName || !newSchedule.location) {
-      const invalidNameLocation = () =>
+      (() =>
         toast.error(
           "Oopsie! Can't forget the essentials. Please enter both First Name and Location. 🧐"
-        );
-      invalidNameLocation();
+        ))();
       return;
     }
 
@@ -64,7 +59,17 @@ const ClientList = () => {
     setNewSchedule({});
     localStorage.setItem("clients", JSON.stringify(clients));
     setNewAppointment(false);
-    appointmentCreated();
+    (() =>
+      toast("❤ Guess what? You just unleashed a new appointment! Hurray!🎉"))();
+  };
+
+  const handleEndDateChange = (enddate) => {
+    if (enddate < newSchedule.date) {
+      (() => toast.error("End Time cannot be earlier than start time"))();
+      return;
+    }
+
+    setNewSchedule({ ...newSchedule, endDate: enddate });
   };
 
   return (
@@ -151,9 +156,7 @@ const ClientList = () => {
                   <p className="w-16 text-end ">To</p>
                   <DatePicker
                     selected={newSchedule.endDate}
-                    onChange={(enddate) =>
-                      setNewSchedule({ ...newSchedule, endDate: enddate })
-                    }
+                    onChange={handleEndDateChange}
                     showTimeSelect
                     dateFormat="Pp"
                     className="bg-red-100 p-2 rounded-md w-full"
@@ -182,14 +185,15 @@ const ClientList = () => {
           </div>
         )}
       </div>
-      {clients?.length === 0 || clients === null ? (
-        <div className="z-20 mx-auto leading-snug bg-red-50 rounded-lg  w-[95%] h-96 flex items-center justify-center text-3xl text-center">
-          No appointments today? 🤔
-          <br />
-          Time to spice up your schedule! <br />
-          Click "Add Appointments" and let's get started.
-        </div>
-      ) : null}
+      {clients?.length === 0 ||
+        (clients === null && (
+          <div className="z-20 mx-auto leading-snug bg-red-50 rounded-lg  w-[95%] h-96 flex items-center justify-center text-3xl text-center">
+            No appointments today? 🤔
+            <br />
+            Time to spice up your schedule! <br />
+            Click "Add Appointments" and let's get started.
+          </div>
+        ))}
       <ToastContainer
         position="top-center"
         autoClose={5000}
