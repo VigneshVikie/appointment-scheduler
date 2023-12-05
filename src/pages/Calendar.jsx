@@ -37,7 +37,7 @@ export default function Calendar() {
           onSelectEvent={handleEventClick}
         />
       </div>
-      <div className="bg-white w-4/5 lg:w-[40%] lg:h-[90%] h-[25%] p-4 rounded-lg shadow-md ">
+      <div className="bg-white w-4/5 lg:w-[40%] xl:w-[30%] lg:h-[90%] h-[25%] p-4 rounded-lg shadow-md ">
         {captureEvent && isOpen ? (
           <>
             <h1 className="text-center text-3xl xl:text-4xl font-bold pb-4 text-red-500">
