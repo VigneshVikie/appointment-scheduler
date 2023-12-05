@@ -4,6 +4,7 @@ import moment from "moment";
 import { useState } from "react";
 import { IoFitnessOutline } from "react-icons/io5";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { FaLocationDot } from "react-icons/fa6";
 
 const localizer = momentLocalizer(moment);
 
@@ -36,7 +37,7 @@ export default function Calendar() {
           onSelectEvent={handleEventClick}
         />
       </div>
-      <div className="bg-white w-4/5 lg:w-[30%] lg:h-[90%] h-[25%] p-4 rounded-lg shadow-md ">
+      <div className="bg-white w-4/5 lg:w-[40%] lg:h-[90%] h-[25%] p-4 rounded-lg shadow-md ">
         {captureEvent && isOpen ? (
           <>
             <h1 className="text-center text-3xl xl:text-4xl font-bold pb-4 text-red-500">
@@ -47,31 +48,41 @@ export default function Calendar() {
                 client.id === captureEvent?.id && (
                   <div
                     className="relative flex justify-between items-center 
-                  bg-slate-200 rounded-md p-2 w-full"
+                  bg-slate-200 rounded-md p-2 w-full shadow-md"
                   >
                     <div className="text-5xl lg:text-7xl text-red-500 bg-white h-full rounded-full p-2">
                       <IoFitnessOutline />
                     </div>
                     <div
                       className="w-4/5 flex flex-col items-center 
-                    justify-center text-xl capitalize"
+                    justify-center text-2xl capitalize"
                     >
                       <div className="flex gap-2 font-bold">
                         <h1>{client.firstName}</h1>
                         {client.lastName && <h1>{client.lastName}</h1>}
                       </div>
-                      <div className="text-center">
-                        <h1 className="text-lg font-medium underline">
-                          Appointments
-                        </h1>
+                      <div className="flex flex-col justify-center items-center">
+                        <div
+                          className="text-lg font-medium 
+                        text-red-500 flex gap-1 items-center
+                         justify-center"
+                        >
+                          <span className="text-base">
+                            <FaLocationDot />
+                          </span>
+                          <span>{client.location}</span>
+                        </div>
                         {client?.appointments?.map((apntDate) => {
                           return (
-                            <h1
+                            <div
                               key={apntDate.id}
-                              className="text-base font-medium"
+                              className="text-base lg:text-sm xl:text-base font-medium"
                             >
-                              {apntDate.appointmentDate}
-                            </h1>
+                              {apntDate.appointmentDate} -
+                              <span className="pl-1">
+                                {apntDate.appointmentEndDate}
+                              </span>
+                            </div>
                           );
                         })}
                       </div>
