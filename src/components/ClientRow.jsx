@@ -164,7 +164,7 @@ const ClientRow = ({ client, setClients, clients }) => {
       <div
         className="relative bg-red-50 rounded-lg 
       drop-shadow-md p-4 mx-auto sm:h-full w-4/5 sm:w-full 
-      h-[360px] flex flex-row"
+      h-[460px] flex flex-row"
       >
         <div
           className="flex flex-col sm:flex-row gap-4 
