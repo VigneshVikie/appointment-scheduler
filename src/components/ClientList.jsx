@@ -70,7 +70,7 @@ const ClientList = () => {
   return (
     <>
       <div className="w-full h-full p-8 grid grid-cols-1 gap-4">
-        <div className="w-full text-right">
+        <div className="w-full text-right lg:w-[96%] xl:w-[85%] 2xl:w-[90%]">
           <button
             className="bg-red-500 text-white p-3 rounded-md text-lg"
             onClick={() => {
@@ -91,7 +91,11 @@ const ClientList = () => {
         ))}
         {newAppointment && (
           <div className="absolute flex flex-col justify-center items-center  bg-red-100 w-full h-full -ml-6 -mt-6 z-30">
-            <div className="bg-white w-[80%] sm:w-[400px] text-2xl font-medium  rounded-lg flex items-start p-4 justify-between flex-col gap-2 ">
+            <div
+              className="bg-white w-[80%] sm:w-[400px] 
+            text-2xl font-medium  rounded-lg flex items-start p-4 
+            justify-between flex-col gap-2 "
+            >
               <p className="text-base text-center w-full">
                 The fields marked with '*' are mandatory
               </p>
@@ -164,7 +168,10 @@ const ClientList = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col w-full gap-6 mt-4 text-white">
+              <div
+                className="flex flex-col w-full gap-6 
+              mt-4 text-white"
+              >
                 <button
                   className="bg-green-500 font-bold w-full p-3 rounded-md"
                   onClick={createAppointment}
