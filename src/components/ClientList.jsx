@@ -94,7 +94,7 @@ const ClientList = () => {
             <div
               className="bg-white w-[80%] sm:w-[400px] 
             text-2xl font-medium  rounded-lg flex items-start p-4 
-            justify-between flex-col gap-2 "
+            justify-between flex-col gap-2"
             >
               <p className="text-base text-center w-full">
                 The fields marked with '*' are mandatory
@@ -188,15 +188,20 @@ const ClientList = () => {
             </div>
           </div>
         )}
+        {clients?.length === 0 || clients === null ? (
+          <div
+            className="z-20 mx-auto leading-snug bg-red-50 
+        rounded-lg  h-96 flex items-center justify-center 
+        text-3xl text-center w-full lg:w-[90  %] xl:w-[70%]"
+          >
+            No appointments today? 🤔
+            <br />
+            Time to spice up your schedule! <br />
+            Click "Add Appointments" and let's get started.
+          </div>
+        ) : null}
       </div>
-      {clients?.length === 0 || clients === null ? (
-        <div className="z-20 mx-auto leading-snug bg-red-50 rounded-lg  w-[95%] h-96 flex items-center justify-center text-3xl text-center">
-          No appointments today? 🤔
-          <br />
-          Time to spice up your schedule! <br />
-          Click "Add Appointments" and let's get started.
-        </div>
-      ) : null}
+
       <ToastContainer
         position="top-center"
         autoClose={5000}
